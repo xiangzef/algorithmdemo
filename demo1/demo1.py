@@ -1,6 +1,6 @@
 #排序算法 2-3
 import random
-
+import time
 
 #类 排序数组初始化 函数 1.断言函数用法2.随机数标准写法
 
@@ -20,15 +20,15 @@ class SortTestHelper:
         for i in range(self.n):
             #随机数标准写法 生成随机数与标准差R-L取余 加上下限L
             arr.append(random.randint(1,10000)%(self.rangR-self.rangL+1)+self.rangL)
-
         return  arr
+        '''以下是冒泡排序'''
     def selectionsort_bubblesort(self,arr):#冒泡
         for i in range(1,len(arr)):
             for j in range(0,len(arr)-i):#为什么是0 到 n-i 原因是把最大的推到最后 这里是0-18 循环不能超过数组长度
                 if arr[j]>arr[j+1]:
                     arr[j],arr[j+1] = arr[j+1],arr[j]
         return arr
-
+        '''以下是冒泡排序反向冒泡'''
     def selectionsort_bubblesort_2(self,arr):#冒泡2
         for i in range(1,len(arr)):
             for j in range(i,len(arr)):#反推要怎么写 这里的入参2是数组长度 所以是1-19 1，19
@@ -44,12 +44,41 @@ class SortTestHelper:
                     minIndex = j
             arr[i-1] , arr[minIndex] =arr[minIndex] , arr[i-1]
         return arr
+    #   以下是插入排序
+
+
+    def insertionsort(self,arr):
+        for i in range(1,len(arr)): #从1开始到arr长度n前一位结束 也就是n-1 数组是0到n-1
+            for j in range(i,0,-1):#倒叙 从i开始比较 与i-1 ,i-1 与i-2 直到
+                if arr[j]<arr[j-1]:
+                    arr[j],arr[j-1] = arr[j-1],arr[j]
+                else:
+                    break
+        return arr
+
+
+
+    def issorted(self,arr):#判断传入的数组是否有序
+        for i in range(0,len(arr)-1):
+            if arr[i]>arr[i+1]:
+                return False
+        return True
+
 
 if __name__ == '__main__':
-    a = SortTestHelper(20,100,300)
+    a = SortTestHelper(6,100,300)
     #打印
     arr=a.generaterandomarray()
     print(arr)
-    arr=a.selectionsort_bubblesort_2(arr)
+    t0 = time.time()
+    arr = a.insertionsort(arr)#插入
+    #arr=a.selectionsort_bubblesort_2(arr)#反冒泡
+    t1 = time.time()
     print(arr)
+    if a.issorted(arr):
+        print('排序成功')
+        print(t1 - t0)
+    else:
+        print('排序失败')
+
     del a ,arr
