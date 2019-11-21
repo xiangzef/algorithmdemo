@@ -54,9 +54,18 @@ class SortTestHelper:
                     arr[j],arr[j-1] = arr[j-1],arr[j]
                 else:
                     break
-        return arr
+        return arr#最初疑惑我的问题是为什么需要在比较不成功的地方跳出 ，后来想明白了因为比较不成功的部分前面是已经整理过的序列
 
-
+    def insertionsort_better(self, arr):
+        for i in range(1,len(arr),1):
+            e = arr[i]
+            for j in range(i,0,-1):
+                if  arr[j-1]> e:
+                    arr[j]= arr[j-1]
+                else:
+                    break
+            arr[j] = e
+        return  arr
 
     def issorted(self,arr):#判断传入的数组是否有序
         for i in range(0,len(arr)-1):
@@ -70,10 +79,15 @@ if __name__ == '__main__':
     #打印
     arr=a.generaterandomarray()
     print(arr)
+
+
     t0 = time.time()
-    arr = a.insertionsort(arr)#插入
-    #arr=a.selectionsort_bubblesort_2(arr)#反冒泡
+    arr = a.insertionsort_better(arr)       #优化插入排序
+    #arr = a.insertionsort(arr)              #插入排序
+    #arr=a.selectionsort_bubblesort_2(arr)   #反冒泡
     t1 = time.time()
+
+
     print(arr)
     if a.issorted(arr):
         print('排序成功')
